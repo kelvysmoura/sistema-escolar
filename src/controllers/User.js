@@ -23,7 +23,8 @@ const fakeUsers = [
 ];
 
 function ListUser(req, res) {
-    res.send(fakeUsers);
+    const users = fakeUsers.filter(user => user.deleted !== true);
+    res.send(users);
 }
 
 function FindUser(req, res) {
@@ -66,9 +67,21 @@ function UpdateUser(req, res) {
     });
 }
 
+function DeleteUser(req, res) {
+    const {id} = req.params;
+
+    const userPosition = fakeUsers.findIndex(user => user && Number(user.id) === Number(id))
+    fakeUsers[userPosition].deleted = true;
+
+    res.send({
+        message: "Usuario deletado com sucesso!"
+    });
+}
+
 module.exports = {
     ListUser,
     FindUser,
     CreateUser,
-    UpdateUser
+    UpdateUser,
+    DeleteUser
 }
