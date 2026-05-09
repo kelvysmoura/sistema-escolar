@@ -10,26 +10,33 @@ module.exports = {
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
 
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable('escolas', {
       id: {
         type: Sequelize.INTEGER,
-        autoIncrement: true,
+        primaryKey: true,
         allowNull: false,
-        primaryKey: true
+        autoIncrement: true
       },
       name: {
-        type: Sequelize.STRING(10),
+        type: Sequelize.STRING(50),
         allowNull: false
       },
-      email: {
-        type: Sequelize.STRING(30),
+      cnpj: {
+        type: Sequelize.STRING(20),
         allowNull: false
       },
-      password: {
-        type: Sequelize.STRING(255),
-        allowNull: false
+      created_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW
+      },
+      update_at: {
+        type: Sequelize.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
+        onUpdate: Sequelize.NOW
       }
-    })
+    });
   },
 
   async down (queryInterface, Sequelize) {
@@ -40,6 +47,6 @@ module.exports = {
      * await queryInterface.dropTable('users');
      */
 
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable('escolas');
   }
 };
