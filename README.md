@@ -25,3 +25,97 @@ CREATE TABLE IF NOT EXISTS colaboradores (
     FOREIGN KEY (escola_id) REFERENCES escolas (id)
 );
 ```
+
+```sql
+CREATE TABLE IF NOT EXISTS alunos (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    name VARCHAR(20) NOT NULL,
+    surname VARCHAR(20) NOT NULL,
+    email VARCHAR(50) NOT NULL,
+    document VARCHAR(50) NOT NULL,
+    document_type VARCHAR(10) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP 
+        ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+
+```sql
+CREATE TABLE IF NOT EXISTS enderecos (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    aluno_id INT NOT NULL UNIQUE,
+    city VARCHAR(20) NOT NULL,
+    neighborhood VARCHAR(20) NOT NULL,
+    uf CHAR(2) NOT NULL,
+    street VARCHAR(100) NOT NULL,
+    complement VARCHAR(255),
+     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP 
+        ON UPDATE CURRENT_TIMESTAMP
+    FOREIGN KEY (aluno_id) REFERENCES alunos (id)
+);
+```
+
+
+```sql
+CREATE TABLE IF NOT EXISTS cursos (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    name VARCHAR(20) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    modality VARCHAR(20) NOT NULL,
+     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP 
+        ON UPDATE CURRENT_TIMESTAMP
+);
+```
+
+
+```sql
+CREATE TABLE IF NOT EXISTS turmas (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    curso_id INT NOT NULL,
+    colaborador_id INT NOT NULL,
+    name CHAR(4) NOT NULL,
+    room VARCHAR(50) NOT NULL,
+    start_time TIME,
+    end_time TIME,
+    start_date DATE,
+    end_date DATE,
+   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP 
+        ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (colaborador_id) REFERENCES colaboradores(id),
+    FOREIGN KEY (curso_id) REFERENCES cursos (id)
+);
+```
+
+
+```sql
+CREATE TABLE IF NOT EXISTS turmas_alunos (
+    turma_id INT NOT NULL,
+    aluno_id INT NOT NULL,
+    FOREIGN KEY (turma_id) REFERENCES turmas (id),
+    FOREIGN KEY (aluno_id) REFERENCES alunos (id)
+);
+```
+
+
+```sql
+CREATE TABLE matriculas (
+    id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    registration VARCHAR(20) NOT NULL,
+    aluno_id INT NOT NULL,
+    turma_id INT NOT NULL,
+    status TINYINT(1) DEFAULT 1,
+     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP 
+        ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY(aluno_id) REFERENCES alunos(id),
+    FOREIGN KEY(turma_id) REFERENCES turmas(id) 
+);
+```
+
+
+```sql
+```
